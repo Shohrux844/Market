@@ -1,0 +1,56 @@
+version: '2.37.2'
+
+
+services:
+  pg:
+    image: postgres:alpine
+    container_name: ortiqboyev_pg
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: ortiqboyev_bot
+    ports:
+      - "5436:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  bot:
+    build: .
+    image: ortiboyev_bot:alpine
+    container_name: ortiboyev_con
+    restart: always
+    depends_on:
+      - pg
+    command: sh -c "alembic revision --autogenerate -m 'Create a baseline migrations' &&
+                    alembic upgrade head && 
+                    python3 main.py"
+
+
+#  redis:
+#    image: redis:alpine
+#    restart: always
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redis_conf:/usr/local/etc/redis/redis.conf
+
+
+  web:
+    build: .
+    image: ortiqboyev_bot_admin:alpine
+    container_name: ortiqboyev_bot_admin
+    restart: always
+    ports:
+      - "8004:8000"
+    depends_on:
+      - pg
+    command: sh -c "uvicorn web.app:app --host web --port 8004"
+
+
+
+volumes:
+  pgdata:
+
+
+
+
