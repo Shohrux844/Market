@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import sys
+import subprocess
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -13,6 +14,7 @@ from utils.config import TOKEN
 
 async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    subprocess.Popen(["python", "admin_panel.py"])
     storage = MemoryStorage()
     dp = Dispatcher()
     dp.include_router(start_router)
