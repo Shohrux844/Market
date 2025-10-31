@@ -4,7 +4,7 @@ from sqlalchemy.orm import declarative_base, Mapped, mapped_column, sessionmaker
 from datetime import datetime, timedelta
 from typing import Optional
 
-engine = create_engine("postgresql+psycopg2://postgres:1@localhost:5432/ortiqboyev_bot")
+engine = create_engine("postgresql://postgres:abcd1234@containers-us-west-56.railway.app:5432/railway")
 Base = declarative_base()
 
 class User(Base):
